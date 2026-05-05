@@ -1,22 +1,28 @@
-def localProperties = new File(rootDir, 'local.properties')
-def flutterRoot = localProperties.exists() ? localProperties.property('flutter.sdk') : System.getenv('FLUTTER_SDK')
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
 
-// The Flutter tooling requires that developers have a platform.
-def flutterVersionCode = localProperties.exists() ? localProperties.property('flutter.versionCode') : '1'
-def flutterVersionName = localProperties.exists() ? localProperties.property('flutter.versionName') : '1.0'
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
+    }
+}
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode", "1").toInteger()
+def flutterVersionName = localProperties.getProperty("flutter.versionName", "1.0")
 
 android {
-    namespace "com.jarvis.lite"
-    compileSdkVersion 34
-    ndkVersion "25.1.8937393"
+    namespace = "com.jarvis.lite"
+    compileSdk = 34
+    ndkVersion = "25.1.8937393"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
@@ -24,38 +30,38 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += "src/main/kotlin"
     }
 
     defaultConfig {
-        applicationId "com.jarvis.lite"
-        minSdkVersion 23
-        targetSdkVersion 34
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId = "com.jarvis.lite"
+        minSdk = 23
+        targetSdk = 34
+        versionCode = flutterVersionCode
+        versionName = flutterVersionName
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.debug
         }
     }
 }
 
 flutter {
-    source '../..'
+    source = "../.."
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
+
     // AndroidX
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core:1.12.0'
-    
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core:1.12.0")
+
     // Material Design
-    implementation 'com.google.android.material:material:1.11.0'
-    
+    implementation("com.google.android.material:material:1.11.0")
+
     // WorkManager for background tasks
-    implementation 'androidx.work:work-runtime:2.9.0'
+    implementation("androidx.work:work-runtime:2.9.0")
 }
