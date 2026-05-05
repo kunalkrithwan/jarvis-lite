@@ -1,0 +1,39 @@
+pluginManagement {
+    def flutterSdkPath = {
+        def flutterRoot = System.env.FLUTTER_SDK
+        if (flutterRoot) {
+            return flutterRoot
+        }
+        def localPropertiesFile = new File(rootDir, "local.properties")
+        if (localPropertiesFile.exists()) {
+            def properties = new Properties()
+            localPropertiesFile.withInputStream { stream ->
+                properties.load(stream)
+            }
+            def flutterSdkPath = properties.getProperty('flutter.sdk')
+            if (flutterSdkPath) {
+                return flutterSdkPath
+            }
+        }
+        throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    }
+    def flutterSdk = flutterSdkPath()
+    
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+        id 'dev.flutter.flutter-gradle-plugin' version '1.0.0' apply false
+    }
+}
+
+plugins {
+    id 'dev.flutter.flutter-gradle-plugin' apply false
+    id 'com.android.application' version '7.3.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+}
+
+rootProject.name = 'jarvis_lite'
+include ':app'

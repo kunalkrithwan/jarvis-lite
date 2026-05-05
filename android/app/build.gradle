@@ -1,0 +1,61 @@
+def localProperties = new File(rootDir, 'local.properties')
+def flutterRoot = localProperties.exists() ? localProperties.property('flutter.sdk') : System.getenv('FLUTTER_SDK')
+
+// The Flutter tooling requires that developers have a platform.
+def flutterVersionCode = localProperties.exists() ? localProperties.property('flutter.versionCode') : '1'
+def flutterVersionName = localProperties.exists() ? localProperties.property('flutter.versionName') : '1.0'
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    namespace "com.jarvis.lite"
+    compileSdkVersion 34
+    ndkVersion "25.1.8937393"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.jarvis.lite"
+        minSdkVersion 23
+        targetSdkVersion 34
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    
+    // AndroidX
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core:1.12.0'
+    
+    // Material Design
+    implementation 'com.google.android.material:material:1.11.0'
+    
+    // WorkManager for background tasks
+    implementation 'androidx.work:work-runtime:2.9.0'
+}

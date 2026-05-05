@@ -1,0 +1,54 @@
+name: jarvis_lite
+description: JARVIS Lite - Offline AI Assistant for Android
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & State Management
+  provider: ^6.1.0
+  cupertino_icons: ^1.0.6
+
+  # Voice & Audio
+  flutter_tts: ^3.8.0
+
+  # Database & Local Storage
+  sqflite: ^2.3.0
+  shared_preferences: ^2.2.0
+  path: ^1.8.0
+
+  # System & Platform Integration
+  permission_handler: ^11.3.0
+  battery_plus: ^5.0.0
+  device_info_plus: ^9.1.0
+
+  # Background Processing
+  workmanager: ^0.5.1
+
+  # Utilities
+  get_it: ^7.6.0
+  uuid: ^4.2.0
+  intl: ^0.19.0
+  collection: ^1.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/models/
+    - assets/sounds/
+    - assets/icons/
+
